@@ -6,6 +6,6 @@ ant jar
 ./pack-rootbeer
 
 cd examples/MMultApp/
-and clean
+ant clean
 ant jar
 java -jar ../../Rootbeer.jar MMultApp.jar MMultApp-GPU.jar -64bit

@@ -66,7 +66,8 @@ public class GencodeOptions {
       sm_11 = "";
     }
     
-    if(versionMatches(version, "6.5") ||
+    if(versionMatches(version, "7.0") ||
+       versionMatches(version, "6.5") ||
        versionMatches(version, "6.0") ||
        versionMatches(version, "5.5") ||
        versionMatches(version, "5.0")){

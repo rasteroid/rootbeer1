@@ -557,10 +557,6 @@ examples.
 
 GPU Consulting available for Rootbeer and CUDA. Please email pcpratts@trifort.org  
 
-### Credit
-
-Rootbeer was partially supported by both the National Science Foundation and
-Syracuse University and God is Most High.
 
 ### Author
 

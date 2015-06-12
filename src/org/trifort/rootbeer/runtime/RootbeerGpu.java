@@ -137,6 +137,10 @@ public class RootbeerGpu {
   
   public static void syncthreads(){ 
   }
+  
+  public static int syncthreadsCount(int count){
+    return 0;
+  }
 
   public static void threadfence(){ 
   }

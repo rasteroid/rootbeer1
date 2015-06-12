@@ -81,6 +81,11 @@ void org_trifort_syncthreads(){
 }
 
 __device__
+int org_trifort_syncthreads_count(int value){
+  return __syncthreads_count(value);
+}
+
+__device__
 void org_trifort_threadfence(){
   __threadfence();
 }

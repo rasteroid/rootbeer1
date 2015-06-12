@@ -1070,6 +1070,11 @@ void org_trifort_rootbeer_runtime_RootbeerGpu_syncthreads(int * exception){
 }
 
 $$__device__$$ 
+int org_trifort_rootbeer_runtime_RootbeerGpu_syncthreadsCount(int value, int * exception){
+  return org_trifort_syncthreads_count(value);
+}
+
+$$__device__$$ 
 void org_trifort_rootbeer_runtime_RootbeerGpu_threadfence(int * exception){
   org_trifort_threadfence();
 }

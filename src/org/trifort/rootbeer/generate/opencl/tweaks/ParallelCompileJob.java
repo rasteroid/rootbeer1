@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.trifort.rootbeer.configuration.Configuration;
 import org.trifort.rootbeer.configuration.RootbeerPaths;
 import org.trifort.rootbeer.util.CompilerRunner;
 import org.trifort.rootbeer.util.CudaPath;
@@ -44,9 +45,15 @@ public class ParallelCompileJob {
       File code_file = new File(RootbeerPaths.v().getRootbeerHome() + 
         "code_file" + file_string + ".ptx");
       String command;
+      String maxregstring = "";
+      if(Configuration.compilerInstance().isMaxRegCountSet()){
+        int maxregcount = Configuration.compilerInstance().getMaxRegCount();
+        maxregstring = " --maxregcount "+maxregcount+" ";
+      }
+      
       if (File.separator.equals("/")) {
         command = m_cudaPath.get() + "/nvcc " + model_string + " " +
-          m_gencodeOptions + "-I/usr/local/cuda/include -fatbin " + m_generated.getAbsolutePath() +
+          m_gencodeOptions + maxregstring + "-I/usr/local/cuda/include -fatbin " + m_generated.getAbsolutePath() +
           " -o " + code_file.getAbsolutePath();
         CompilerRunner runner = new CompilerRunner();
         List<String> errors = runner.run(command);
@@ -58,7 +65,7 @@ public class ParallelCompileJob {
         WindowsCompile compile = new WindowsCompile();
         String nvidia_path = m_cudaPath.get();
         command = "\"" + nvidia_path + "\" " + model_string + " " + m_gencodeOptions +
-          " -fatbin \"" + m_generated.getAbsolutePath() + "\" -o \"" +
+          maxregstring + " -fatbin \"" + m_generated.getAbsolutePath() + "\" -o \"" +
           code_file.getAbsolutePath() + "\"" + compile.endl();
         List<String> errors = compile.compile(command, !m_m32);
         if (errors.isEmpty() == false) {

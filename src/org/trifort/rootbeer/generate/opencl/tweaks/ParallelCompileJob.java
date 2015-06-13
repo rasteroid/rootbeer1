@@ -48,7 +48,7 @@ public class ParallelCompileJob {
       String maxregstring = "";
       if(Configuration.compilerInstance().isMaxRegCountSet()){
         int maxregcount = Configuration.compilerInstance().getMaxRegCount();
-        maxregstring = " --maxregcount "+maxregcount+" ";
+        maxregstring = " --maxrregcount "+maxregcount+" ";
       }
       
       if (File.separator.equals("/")) {

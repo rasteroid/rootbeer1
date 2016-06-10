@@ -22,7 +22,7 @@ HMM Learning has O(N^2T) time complexity (N=num_states and T=num_samples).
 
 You can expect a 100x speedup from an optimized implementation by an 
 experienced GPU developer per device and 400x for a chassis with 4-GPUs 
-if the problem in compute bound rather than memory bound or IO bound.
+if the problem is compute bound rather than memory bound or IO bound.
 
 ## Programming  
 <b>Kernel Interface:</b> Your code that will run on the GPU will implement the Kernel interface.

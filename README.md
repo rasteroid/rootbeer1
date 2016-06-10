@@ -6,7 +6,7 @@ in that it is tailored for advanced usage to get the best raw performance.
 ROOTBEER IS PRE-PRODUCTION BETA. IF ROOTBEER WORKS FOR YOU, PLEASE LET ME KNOW.
 
 To get a speedup using rootbeer you need to have a simple kernel that does
-not call method after method of library code and O(N) computation for O(1) data
+not call method after method of library code and does O(N) computation for O(1) data
 element that is copied to the GPU.
 
 GPU PROGRAMMING IS HARD. EXPECT TO PRODUCE 3-5 LINES OF CODE PER HOUR IN THIS ENVIRONMENT.
@@ -23,7 +23,10 @@ control over fine-grained GPU setup and Rootbeer is the only system to date
 that can run a global sync without deadlock. Using this primitive with
 an HMM Learning example gave 102x speedup over a sinle core CPU using a single
 Tesla C2050. This example had O(N^2T) time complexity where N is the number
-of states and T is the number of signal samples.
+of states and T is the number of signal samples. You can expect around 100x
+speedup from an optimized implementation by an experienced GPU developer per
+device and 400x for a chassis with 4-GPUs if the problem in computate bound, 
+not memory bound or IO bound.
 
 ## Programming  
 <b>Kernel Interface:</b> Your code that will run on the GPU will implement the Kernel interface.

@@ -5,28 +5,24 @@ in that it is tailored for advanced usage to get the best raw performance.
 
 ROOTBEER IS PRE-PRODUCTION BETA. IF ROOTBEER WORKS FOR YOU, PLEASE LET ME KNOW.
 
-To get a speedup using rootbeer you need to have a simple kernel that does
-not call method after method of library code and does O(N) computation for O(1) data
-element that is copied to the GPU.
+To get a speedup using rootbeer you need a simple kernel that calls few library methods
+and has at least O(N) computation per O(1) data.
 
-GPU PROGRAMMING IS HARD. EXPECT TO PRODUCE 3-5 LINES OF CODE PER HOUR IN THIS ENVIRONMENT.
+GPU PROGRAMMING IS EXTREMELY HARD. EXPECT TO BE WORKING AT 3-5 SLOC/HOUR IN THIS ENVIRONMENT.
 
-For the best performance, you should be using shared memory (NVIDIA term). The shared memory is
-a software managed cache. You want to have more threads per block, but this often
-requires using more shared memory. Look at the [CUDA Occupancy Calculator](http://developer.download.nvidia.com/compute/cuda/CUDA_Occupancy_calculator.xls) and you will see
-that for best occupancy you will want more threads and less shared memory. There is a tradeoff
-between thread count, shared memory size and register count. All of these are configurable
-using Rootbeer.
+For the best performance, you should be using shared memory (NVIDIA term). Look at the 
+[CUDA Occupancy Calculator](http://developer.download.nvidia.com/compute/cuda/CUDA_Occupancy_calculator.xls) and 
+plan out the thread count, shared memory size and register count to obtain 100% occupancy.
 
 For examples such as the global synchronization primitive, you need explicit
-control over fine-grained GPU setup and Rootbeer is the only system to date
+control over the fine-grained GPU setup and Rootbeer is the only system to date
 that can run a global sync without deadlock. Using this primitive with
-an HMM Learning example gave 102x speedup over a sinle core CPU using a single
-Tesla C2050. This example had O(N^2T) time complexity where N is the number
-of states and T is the number of signal samples. You can expect around 100x
-speedup from an optimized implementation by an experienced GPU developer per
-device and 400x for a chassis with 4-GPUs if the problem in computate bound, 
-not memory bound or IO bound.
+an HMM Learning example gave 102x speedup over a single core CPU using a Tesla C2050. 
+HMM Learning has O(N^2T) time complexity (N=num_states and T=num_samples).
+
+You can expect a 100x speedup from an optimized implementation by an 
+experienced GPU developer per device and 400x for a chassis with 4-GPUs 
+if the problem in compute bound rather than memory bound or IO bound.
 
 ## Programming  
 <b>Kernel Interface:</b> Your code that will run on the GPU will implement the Kernel interface.

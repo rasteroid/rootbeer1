@@ -1,32 +1,29 @@
 #Rootbeer
 
-The Rootbeer GPU Compiler lets you use GPUs from within Java. It allows you to use almost anything from Java on the GPU:
+The Rootbeer GPU Compiler lets you use GPUs from within Java. It is different than other Java/GPU solutions
+in that it is tailored for advanced usage to get the best raw performance.
 
-  1. Composite objects with methods and fields
-  2. Static and instance methods and fields
-  3. Arrays of primitive and reference types of any dimension.
+ROOTBEER IS PRE-PRODUCTION BETA. IF ROOTBEER WORKS FOR YOU, PLEASE LET ME KNOW.
 
-ROOTBEER IS PRE-PRODUCTION BETA. IF ROOTBEER WORKS FOR YOU, PLEASE LET ME KNOW AT PCPRATTS@TRIFORT.ORG
+To get a speedup using rootbeer you need to have a simple kernel that does
+not call method after method of library code and O(N) computation for O(1) data
+element that is copied to the GPU.
 
-Be aware that you should not expect to get a speedup using a GPU by doing something simple
-like multiplying each element in an array by a scalar. Serialization time is a large bottleneck
-and usually you need an algorithm that is O(n^2) to O(n^3) per O(n) elements of data.
-
-GPU PROGRAMMING IS NOT EASY, EVEN WITH ROOTBEER. EXPECT TO SPEND A MONTH OPTIMIZING TRIVIAL EXAMPLES.
-
-FEEL FREE TO EMAIL ME FOR DISCUSSIONS BEFORE ATTEMPTING TO USE ROOTBEER
-
-An experienced GPU developer will look at existing code and find places where control can
-be transfered to the GPU. Optimal performance in an application will have places with serial
-code and places with parallel code on the GPU. At each place that a cut can be made to transfer
-control to the GPU, the job needs to be sized for the GPU.
+GPU PROGRAMMING IS HARD. EXPECT TO PRODUCE 3-5 LINES OF CODE PER HOUR IN THIS ENVIRONMENT.
 
 For the best performance, you should be using shared memory (NVIDIA term). The shared memory is
-basically a software managed cache. You want to have more threads per block, but this often
-requires using more shared memory. If you see the [CUDA Occupancy Calculator](http://developer.download.nvidia.com/compute/cuda/CUDA_Occupancy_calculator.xls) you can see
+a software managed cache. You want to have more threads per block, but this often
+requires using more shared memory. Look at the [CUDA Occupancy Calculator](http://developer.download.nvidia.com/compute/cuda/CUDA_Occupancy_calculator.xls) and you will see
 that for best occupancy you will want more threads and less shared memory. There is a tradeoff
 between thread count, shared memory size and register count. All of these are configurable
 using Rootbeer.
+
+For examples such as the global synchronization primitive, you need explicit
+control over fine-grained GPU setup and Rootbeer is the only system to date
+that can run a global sync without deadlock. Using this primitive with
+an HMM Learning example gave 102x speedup over a sinle core CPU using a single
+Tesla C2050. This example had O(N^2T) time complexity where N is the number
+of states and T is the number of signal samples.
 
 ## Programming  
 <b>Kernel Interface:</b> Your code that will run on the GPU will implement the Kernel interface.
@@ -362,7 +359,7 @@ public void gpuMethod(){
 
 Once you are done debugging, you can get a performance improvement by disabling exceptions and array bounds checks (see command line options).
 
-### Multi-GPUs (untested)
+### Multi-GPUs (lightly tested)
 
 ```java
 List<GpuDevice> devices = rootbeer.getDevices();
@@ -551,14 +548,3 @@ now.
 
 See [here](https://github.com/pcpratts/rootbeer1/tree/master/examples) for a variety of
 examples.
-
-
-### Consulting
-
-GPU Consulting available for Rootbeer and CUDA. Please email pcpratts@trifort.org  
-
-
-### Author
-
-Phil Pratt-Szeliga  
-http://trifort.org/
